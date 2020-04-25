@@ -1,0 +1,35 @@
+{
+  "plugin_name": "Memer",
+  "plugin_scope": "memer",
+  "plugin_exec": "memer.js",
+  "command_map": {
+    "pls": {
+      "hargs": "",
+      "hdesc": {
+	  "vi_VN": "pls command",
+	  "en_US": "pls command"
+	  },
+      "fscope": "memer",
+      "compatibly": 1
+    }
+  },
+  "author": "Kaysil",
+  "version": "1.0",
+  "node_depends": {
+    "fs": "*",
+    "path": "*",
+    "wait-for-stuff": "*",
+	"stream-buffers": "*"
+  },
+  	"dependents": [],
+	"file_map": {
+	"khabanh_oibanoi.mp3": "kha_banh_oibanoi",
+	"duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
+	"huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
+	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
+	},
+	"chatHook": "chathook",
+	"chatHookType": "everything",
+	"chatHookPlatform": 1,
+  "complied_for": "0.3.0"
+}
