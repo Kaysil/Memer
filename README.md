@@ -6,7 +6,7 @@
 - Put it to ./plugins folder then run your bot
 #### Command:
 - Main command: /pls
-  - Subcommand: sounds
+  - Subcommand: sounds, slap (wip)
 
 #### Example:
 - none
