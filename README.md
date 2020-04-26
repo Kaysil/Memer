@@ -11,4 +11,4 @@
 #### Example:
 - none
 
-#### like Dank Memer in Discord (thonk)
+#### like Dank Memer in Discord (maybe or not) but for Vietnamese
