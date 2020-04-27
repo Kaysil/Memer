@@ -1,15 +1,15 @@
 {
-  "plugin_name": "Memer",
-  "plugin_scope": "memer",
-  "plugin_exec": "memer.js",
+  "plugin_name": "Random",
+  "plugin_scope": "random",
+  "plugin_exec": "random.js",
   "command_map": {
-    "pls": {
+    "random": {
       "hargs": "",
       "hdesc": {
-	  "vi_VN": "pls command",
-	  "en_US": "pls command"
+	  "vi_VN": "Random command",
+	  "en_US": "Random command"
 	  },
-      "fscope": "memer",
+      "fscope": "random",
       "compatibly": 1
     }
   },
@@ -19,18 +19,14 @@
     "fs": "*",
     "path": "*",
     "wait-for-stuff": "*",
-	"stream-buffers": "*",
-	"jimp": "",
-	"merge-images": "",
-	"canvas": ""
+	"stream-buffers": "*"
   },
   	"dependents": [],
 	"file_map": {
 	"khabanh_oibanoi.mp3": "khabanh_oibanoi",
 	"duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
 	"huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
-	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong",
-	"temple_slap.png": "temple_slap"
+	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
 	},
 	"chatHook": "chathook",
 	"chatHookType": "everything",
