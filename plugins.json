@@ -19,14 +19,18 @@
     "fs": "*",
     "path": "*",
     "wait-for-stuff": "*",
-	"stream-buffers": "*"
+	"stream-buffers": "*",
+	"jimp": "",
+	"merge-images": "",
+	"canvas": ""
   },
   	"dependents": [],
 	"file_map": {
 	"khabanh_oibanoi.mp3": "khabanh_oibanoi",
 	"duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
 	"huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
-	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
+	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong",
+	"temple_slap.png": "temple_slap"
 	},
 	"chatHook": "chathook",
 	"chatHookType": "everything",
