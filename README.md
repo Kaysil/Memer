@@ -1,11 +1,11 @@
-# Memer PLUGIN #
+# Random PLUGIN #
 ### Memer plugin for C3CBot
 ### Author: Kaysil (me) ##
 
 ### Usage/Using:
 - Put it to ./plugins folder then run your bot
 #### Command:
-- Main command: /pls
+- Main command: /random
   - Subcommand: sounds, slap (wip)
 
 #### Example:
