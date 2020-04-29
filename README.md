@@ -1,5 +1,5 @@
 # Random PLUGIN #
-### Memer plugin for C3CBot
+### Random plugin for C3CBot
 ### Author: Kaysil (me) ##
 
 ### Usage/Using:
