@@ -10,5 +10,3 @@
 
 #### Example:
 - none
-
-#### like Dank Memer in Discord (maybe or not) but for Vietnamese
