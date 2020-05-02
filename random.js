@@ -38,23 +38,35 @@ for (var n in nameMapping) {
 
 var defaultConfig = {
      "sounds": {
-          "khabanh_oibanoi": {
+          "1": {
                "filepath": "khabanh_oibanoi.mp3",
                "message": "Sức đề kháng yếu à? Nghe lời tư vấn của bác sĩ Bảnh"
           },
-          "huanrose_colamthimoicoan": {
+          "2": {
                "filepath": "huanrose_colamthimoicoan.mp3",
                "message": ""
           },
-          "duckbatman_oibanoi": {
+          "3": {
                "filepath": "duckbatman_oibanoi.mp3",
                "message": ""
           },
-          "duckbatman_trietlycuocsong": {
+          "4": {
                "filepath": "duckbatman_trietlycuocsong.mp3",
                "message": ""
           }
      },
+	 "images": {
+          "1": {
+               "filepath": "",
+               "message": ""
+          }
+	 },
+	 "videos": {
+          "1": {
+               "filepath": "",
+               "message": ""
+          }
+	 },
      "message": {
           "noSubCommand": "Ôi bạn ơi bạn chơi nhiều đồ vậy",
           "wrongSubCommand": "Ôi bạn ơi bạn chơi nhiều đồ vậy"
@@ -86,12 +98,35 @@ var args = data.args;
 		case 's':
 		var random = config.sounds[Object.keys(config.sounds)[Math.floor(Math.random()*Object.keys(config.sounds).length)]];
 		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", random.filepath));
-		data.log(random);
 		return data.return({
 			handler: `internal-raw`,
 			data: {
 				body: random.message,
 				attachment: randomSounds
+			}
+		})
+			break;
+		case 'images':
+		case 'i':
+		var random = config.images[Object.keys(config.images)[Math.floor(Math.random()*Object.keys(config.images).length)]];
+		var randomImages = fs.createReadStream(path.join(rootpath, "images", random.filepath));
+		return data.return({
+			handler: `internal-raw`,
+			data: {
+				body: random.message,
+				attachment: randomImages
+			}
+		})
+			break;
+		case 'videos':
+		case 'v':
+		var random = config.videos[Object.keys(config.videos)[Math.floor(Math.random()*Object.keys(config.videos).length)]];
+		var randomVideos = fs.createReadStream(path.join(rootpath, "videos", random.filepath));
+		return data.return({
+			handler: `internal-raw`,
+			data: {
+				body: random.message,
+				attachment: randomVideos
 			}
 		})
 			break;
