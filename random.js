@@ -2,6 +2,22 @@ var fs = global.nodemodule["fs"];
 var path = global.nodemodule["path"];
 var wait = global.nodemodule["wait-for-stuff"];
 var streamBuffers = global.nodemodule["stream-buffers"];
+var request = global.nodemodule["request"];
+var fetch = global.nodemodule["node-fetch"];
+
+var onLoadText = "\n\n";
+onLoadText += "██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░███╗░░░███╗\n";
+onLoadText += "██╔══██╗██╔══██╗████╗░██║██╔══██╗██╔══██╗████╗░████║\n";
+onLoadText += "██████╔╝███████║██╔██╗██║██║░░██║██║░░██║██╔████╔██║\n";
+onLoadText += "██╔══██╗██╔══██║██║╚████║██║░░██║██║░░██║██║╚██╔╝██║\n";
+onLoadText += "██║░░██║██║░░██║██║░╚███║██████╔╝╚█████╔╝██║░╚═╝░██║\n";
+onLoadText += "╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░░╚════╝░╚═╝░░░░░╚═╝\n";
+onLoadText += "\n";
+
+setTimeout(() => {
+	console.log(onLoadText);
+}, 1000);
+
 
 function ensureExists(path, mask) {
   if (typeof mask != 'number') {
@@ -18,10 +34,11 @@ function ensureExists(path, mask) {
   }
 }
 
-var rootpath = path.resolve(__dirname, "..", "Random");
+var rootpath = path.resolve(__dirname, "..", "Random-folder");
 ensureExists(rootpath);
 ensureExists(path.join(rootpath, "images"));
 ensureExists(path.join(rootpath, "sounds"));
+ensureExists(path.join(rootpath, "videos"));
 
 var nameMapping = {
 	"khabanh_oibanoi": path.join(rootpath, "sounds", "khabanh_oibanoi.mp3"),
@@ -39,19 +56,19 @@ for (var n in nameMapping) {
 var defaultConfig = {
      "sounds": {
           "1": {
-               "filepath": "khabanh_oibanoi.mp3",
+               "filepath": "khabanh_oibanoi",
                "message": "Sức đề kháng yếu à? Nghe lời tư vấn của bác sĩ Bảnh"
           },
           "2": {
-               "filepath": "huanrose_colamthimoicoan.mp3",
+               "filepath": "huanrose_colamthimoicoan",
                "message": ""
           },
           "3": {
-               "filepath": "duckbatman_oibanoi.mp3",
+               "filepath": "duckbatman_oibanoi",
                "message": ""
           },
           "4": {
-               "filepath": "duckbatman_trietlycuocsong.mp3",
+               "filepath": "duckbatman_trietlycuocsong",
                "message": ""
           }
      },
@@ -68,13 +85,16 @@ var defaultConfig = {
           }
 	 },
      "message": {
-          "noSubCommand": "Ôi bạn ơi bạn chơi nhiều đồ vậy",
-          "wrongSubCommand": "Ôi bạn ơi bạn chơi nhiều đồ vậy"
-     },
-     "help": {
-          "1": "Config like 'name': [filepath: 'path.mp3', message: 'lmao'] you can leave blank for no message",
-		  "2": "you must put file to 'sounds' folder"
-     }
+          "noSubCommand": "?",
+          "wrongSubCommand": "Available subcommands: sounds(or s), videos(or v), images(or i)"
+	 },
+	 "help": {
+		 "HELP1": [
+			 "Image type must be .jpg",
+			 "Sound type must be .mp3",
+			 "Video type must be .mp4"
+		 ]
+	 }
 };
 
 if (!fs.existsSync(path.join(rootpath, "config.json"))) {
@@ -95,9 +115,10 @@ var args = data.args;
 		return { handler: 'internal', data: config.message.wrongSubCommand };
 			break;
 		case 'sounds':
+		case 'sound':
 		case 's':
 		var random = config.sounds[Object.keys(config.sounds)[Math.floor(Math.random()*Object.keys(config.sounds).length)]];
-		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", random.filepath));
+		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", random.filepath+".mp3"));
 		return data.return({
 			handler: `internal-raw`,
 			data: {
@@ -107,9 +128,10 @@ var args = data.args;
 		})
 			break;
 		case 'images':
+		case 'image':
 		case 'i':
 		var random = config.images[Object.keys(config.images)[Math.floor(Math.random()*Object.keys(config.images).length)]];
-		var randomImages = fs.createReadStream(path.join(rootpath, "images", random.filepath));
+		var randomImages = fs.createReadStream(path.join(rootpath, "images", random.filepath+".jpg"));
 		return data.return({
 			handler: `internal-raw`,
 			data: {
@@ -119,9 +141,10 @@ var args = data.args;
 		})
 			break;
 		case 'videos':
+		case 'video':
 		case 'v':
 		var random = config.videos[Object.keys(config.videos)[Math.floor(Math.random()*Object.keys(config.videos).length)]];
-		var randomVideos = fs.createReadStream(path.join(rootpath, "videos", random.filepath));
+		var randomVideos = fs.createReadStream(path.join(rootpath, "videos", random.filepath+".mp4"));
 		return data.return({
 			handler: `internal-raw`,
 			data: {
@@ -130,7 +153,40 @@ var args = data.args;
 			}
 		})
 			break;
-			
+		case 'memes':
+		case 'meme':
+		case 'm':
+			args.shift();
+		if(!args[0]) {
+			fetch("https://meme-api.herokuapp.com/gimme")
+			.then(res => res.json())
+			.then(json => {
+				var img = global.nodemodule['sync-request']("GET", json.url).body;
+					fs.writeFileSync(path.join(rootpath, data.msgdata.messageID + ".jpg"), img);
+				var stream = fs.createReadStream(path.join(rootpath, data.msgdata.messageID + ".jpg"));
+				data.log(json);
+				var obj = {
+						body: `Title: ${json.title}\nPostlink: ${json.postLink}\nSubreddit: https://reddit.com/r/${json.subreddit}`,
+						attachment: ([stream])
+					};
+				return data.facebookapi.sendMessage(obj, data.msgdata.threadID, data.msgdata.messageID);
+			})
+		} /*else {
+			fetch("https://meme-api.herokuapp.com/gimme/"+encodeURIComponent(args.join(" ")))
+		.then(res => res.json())
+		.then(json => {
+			var img = global.nodemodule['sync-request']("GET", json.url).body;
+			data.log(img);
+				fs.writeFileSync(path.join(rootpath, data.msgdata.messageID + ".jpg"), img);
+			var stream = fs.createReadStream(path.join(rootpath, data.msgdata.messageID + ".jpg"));
+			data.log(json);
+			var obj = {
+				body: `Title: ${json.title}\nPostlink: ${json.postLink}\nSubreddit: https://reddit.com/r/${json.subreddit}`,
+				attachment: ([stream])
+			};
+			return data.facebookapi.sendMessage(obj, data.msgdata.threadID, data.msgdata.messageID);
+		})
+		}*/
 	}
 }
 module.exports = {

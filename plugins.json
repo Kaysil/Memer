@@ -19,7 +19,9 @@
     "fs": "*",
     "path": "*",
     "wait-for-stuff": "*",
-	"stream-buffers": "*"
+	  "stream-buffers": "*",
+	  "node-fetch": "*",
+	  "request": "*"
   },
   	"dependents": [],
 	"file_map": {
