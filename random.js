@@ -5,6 +5,8 @@ var streamBuffers = global.nodemodule["stream-buffers"];
 var request = global.nodemodule["request"];
 var fetch = global.nodemodule["node-fetch"];
 
+function onLoad(data) {
+
 var onLoadText = "\n\n";
 onLoadText += "██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░███╗░░░███╗\n";
 onLoadText += "██╔══██╗██╔══██╗████╗░██║██╔══██╗██╔══██╗████╗░████║\n";
@@ -13,11 +15,11 @@ onLoadText += "██╔══██╗██╔══██║██║╚█�
 onLoadText += "██║░░██║██║░░██║██║░╚███║██████╔╝╚█████╔╝██║░╚═╝░██║\n";
 onLoadText += "╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░░╚════╝░╚═╝░░░░░╚═╝\n";
 onLoadText += "\n";
+onLoadText += "Enable Random by Kaysil\n"
 
-setTimeout(() => {
-	console.log(onLoadText);
-}, 1000);
+data.log(onLoadText);
 
+}
 
 function ensureExists(path, mask) {
   if (typeof mask != 'number') {
@@ -190,5 +192,6 @@ var args = data.args;
 	}
 }
 module.exports = {
-    random: randomFunc
+    random: randomFunc,
+    onLoad
 };
