@@ -18,6 +18,7 @@ onLoadText += "\n";
 onLoadText += "Enable Random by Kaysil\n"
 
 data.log(onLoadText);
+data.log(data);
 
 }
 
@@ -56,6 +57,11 @@ for (var n in nameMapping) {
 }
 
 var defaultConfig = {
+	 "settings": {
+		"enableSounds": true,
+		"enableVideos": false,
+		"enableImages": false
+	 },
      "sounds": {
           "1": {
                "filepath": "khabanh_oibanoi",
@@ -119,6 +125,7 @@ var args = data.args;
 		case 'sounds':
 		case 'sound':
 		case 's':
+		if (config.settings.enableSounds === true) {
 		var random = config.sounds[Object.keys(config.sounds)[Math.floor(Math.random()*Object.keys(config.sounds).length)]];
 		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", random.filepath+".mp3"));
 		return data.return({
@@ -128,10 +135,17 @@ var args = data.args;
 				attachment: randomSounds
 			}
 		})
+		} else {
+			return data.return({
+				handler: "internal",
+				data: "This feature is disable"
+			})
+		}
 			break;
 		case 'images':
 		case 'image':
 		case 'i':
+		if (config.settings.enableImages) {
 		var random = config.images[Object.keys(config.images)[Math.floor(Math.random()*Object.keys(config.images).length)]];
 		var randomImages = fs.createReadStream(path.join(rootpath, "images", random.filepath+".jpg"));
 		return data.return({
@@ -141,10 +155,17 @@ var args = data.args;
 				attachment: randomImages
 			}
 		})
+		} else {
+			return data.return({
+				handler: "internal",
+				data: "This feature is disable"
+			})
+		}
 			break;
 		case 'videos':
 		case 'video':
 		case 'v':
+		if (config.settings.enableImages === true) {
 		var random = config.videos[Object.keys(config.videos)[Math.floor(Math.random()*Object.keys(config.videos).length)]];
 		var randomVideos = fs.createReadStream(path.join(rootpath, "videos", random.filepath+".mp4"));
 		return data.return({
@@ -154,6 +175,12 @@ var args = data.args;
 				attachment: randomVideos
 			}
 		})
+		} else {
+			return data.return({
+				handler: "internal",
+				data: "This feature is disable"
+			})
+		}
 			break;
 		case 'memes':
 		case 'meme':
