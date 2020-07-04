@@ -25,10 +25,10 @@
   },
   	"dependents": [],
 	"file_map": {
-	"khabanh_oibanoi.mp3": "khabanh_oibanoi",
-	"duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
-	"huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
-	"duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
+	"music/khabanh_oibanoi.mp3": "khabanh_oibanoi",
+	"music/duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
+	"music/huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
+	"music/duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
 	},
 	"chatHook": "chathook",
 	"chatHookType": "everything",
