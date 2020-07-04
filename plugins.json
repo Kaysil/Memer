@@ -4,10 +4,10 @@
   "plugin_exec": "meme.js",
   "command_map": {
     "pls": {
-      "hargs": "",
+      "hargs": "slap <@mention> || meme || anime",
       "hdesc": {
-	  "vi_VN": "Memeeeee!",
-	  "en_US": "Memeeeee!"
+	  "vi_VN": "Gửi một bức ảnh bất kì hoặc tát ai đó mà bạn muốn!",
+	  "en_US": "Send a random picture or slap somebody!"
 	  },
       "fscope": "memeFunc",
       "compatibly": 1
