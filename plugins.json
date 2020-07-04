@@ -1,15 +1,15 @@
 {
-  "plugin_name": "Random",
-  "plugin_scope": "random",
-  "plugin_exec": "random.js",
+  "plugin_name": "Memer",
+  "plugin_scope": "meme",
+  "plugin_exec": "meme.js",
   "command_map": {
-    "random": {
+    "pls": {
       "hargs": "",
       "hdesc": {
-	  "vi_VN": "Random command",
-	  "en_US": "Random command"
+	  "vi_VN": "Memeeeee!",
+	  "en_US": "Memeeeee!"
 	  },
-      "fscope": "random",
+      "fscope": "memeFunc",
       "compatibly": 1
     }
   },
