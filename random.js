@@ -7,18 +7,16 @@ var fetch = global.nodemodule["node-fetch"];
 
 function onLoad(data) {
 
-var onLoadText = "\n\n";
-onLoadText += "██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░███╗░░░███╗\n";
+var onLoadText = "";
+onLoadText += "██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░███╗░░░███╗\n\n\n";
 onLoadText += "██╔══██╗██╔══██╗████╗░██║██╔══██╗██╔══██╗████╗░████║\n";
 onLoadText += "██████╔╝███████║██╔██╗██║██║░░██║██║░░██║██╔████╔██║\n";
 onLoadText += "██╔══██╗██╔══██║██║╚████║██║░░██║██║░░██║██║╚██╔╝██║\n";
 onLoadText += "██║░░██║██║░░██║██║░╚███║██████╔╝╚█████╔╝██║░╚═╝░██║\n";
-onLoadText += "╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░░╚════╝░╚═╝░░░░░╚═╝\n";
-onLoadText += "\n";
+onLoadText += "╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░░╚════╝░╚═╝░░░░░╚═╝\n\n";
 onLoadText += "Enable Random by Kaysil\n"
 
 data.log(onLoadText);
-data.log(data);
 
 }
 
@@ -57,52 +55,24 @@ for (var n in nameMapping) {
 }
 
 var defaultConfig = {
-	 "settings": {
-		"enableSounds": true,
-		"enableVideos": false,
-		"enableImages": false
-	 },
-     "sounds": {
-          "1": {
+     "sounds": [
+          {
                "filepath": "khabanh_oibanoi",
                "message": "Sức đề kháng yếu à? Nghe lời tư vấn của bác sĩ Bảnh"
           },
-          "2": {
+          {
                "filepath": "huanrose_colamthimoicoan",
                "message": ""
           },
-          "3": {
+          {
                "filepath": "duckbatman_oibanoi",
                "message": ""
           },
-          "4": {
+          {
                "filepath": "duckbatman_trietlycuocsong",
                "message": ""
-          }
-     },
-	 "images": {
-          "1": {
-               "filepath": "",
-               "message": ""
-          }
-	 },
-	 "videos": {
-          "1": {
-               "filepath": "",
-               "message": ""
-          }
-	 },
-     "message": {
-          "noSubCommand": "?",
-          "wrongSubCommand": "Available subcommands: sounds(or s), videos(or v), images(or i)"
-	 },
-	 "help": {
-		 "HELP1": [
-			 "Image type must be .jpg",
-			 "Sound type must be .mp3",
-			 "Video type must be .mp4"
-		 ]
-	 }
+		  }
+		]
 };
 
 if (!fs.existsSync(path.join(rootpath, "config.json"))) {
@@ -114,73 +84,31 @@ if (!fs.existsSync(path.join(rootpath, "config.json"))) {
 	}));
 }
 
-var randomFunc = function(type, data) {
+var randomFunc = async function(type, data) {
 var args = data.args;
     args.shift();
-		if (!args[0]) return{ handler: 'internal', data: config.message.noSubCommand };
+		if (!args[0]) return { handler: 'internal', data: config.message.noSubCommand };
+
 	switch (args[0].toLowerCase()) {
-		default:
-		return { handler: 'internal', data: config.message.wrongSubCommand };
-			break;
+		//default:
+		//return { handler: 'internal', data: config.message.wrongSubCommand };
+		//	break;
 		case 'sounds':
 		case 'sound':
 		case 's':
-		if (config.settings.enableSounds === true) {
-		var random = config.sounds[Object.keys(config.sounds)[Math.floor(Math.random()*Object.keys(config.sounds).length)]];
-		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", random.filepath+".mp3"));
+			try {
+		var randomItem = config.sounds[Math.floor(Math.random() * items.length)];
+		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", randomItem.filepath+".mp3"));
 		return data.return({
 			handler: `internal-raw`,
 			data: {
-				body: random.message,
+				body: randomItem.message,
 				attachment: randomSounds
 			}
 		})
-		} else {
-			return data.return({
-				handler: "internal",
-				data: "This feature is disable"
-			})
-		}
-			break;
-		case 'images':
-		case 'image':
-		case 'i':
-		if (config.settings.enableImages) {
-		var random = config.images[Object.keys(config.images)[Math.floor(Math.random()*Object.keys(config.images).length)]];
-		var randomImages = fs.createReadStream(path.join(rootpath, "images", random.filepath+".jpg"));
-		return data.return({
-			handler: `internal-raw`,
-			data: {
-				body: random.message,
-				attachment: randomImages
-			}
-		})
-		} else {
-			return data.return({
-				handler: "internal",
-				data: "This feature is disable"
-			})
-		}
-			break;
-		case 'videos':
-		case 'video':
-		case 'v':
-		if (config.settings.enableImages === true) {
-		var random = config.videos[Object.keys(config.videos)[Math.floor(Math.random()*Object.keys(config.videos).length)]];
-		var randomVideos = fs.createReadStream(path.join(rootpath, "videos", random.filepath+".mp4"));
-		return data.return({
-			handler: `internal-raw`,
-			data: {
-				body: random.message,
-				attachment: randomVideos
-			}
-		})
-		} else {
-			return data.return({
-				handler: "internal",
-				data: "This feature is disable"
-			})
-		}
+	} catch (err) {
+		data.log(err)
+	}
 			break;
 		case 'memes':
 		case 'meme':
@@ -195,27 +123,15 @@ var args = data.args;
 				var stream = fs.createReadStream(path.join(rootpath, data.msgdata.messageID + ".jpg"));
 				data.log(json);
 				var obj = {
-						body: `Title: ${json.title}\nPostlink: ${json.postLink}\nSubreddit: https://reddit.com/r/${json.subreddit}`,
+						body: `- Title: ${json.title}\nLink: ${json.postLink}\nSubreddit: https://reddit.com/r/${json.subreddit}`,
 						attachment: ([stream])
 					};
-				return data.facebookapi.sendMessage(obj, data.msgdata.threadID, data.msgdata.messageID);
+				return {
+					handler: "internal-raw",
+					data: obj
+				}
 			})
-		} /*else {
-			fetch("https://meme-api.herokuapp.com/gimme/"+encodeURIComponent(args.join(" ")))
-		.then(res => res.json())
-		.then(json => {
-			var img = global.nodemodule['sync-request']("GET", json.url).body;
-			data.log(img);
-				fs.writeFileSync(path.join(rootpath, data.msgdata.messageID + ".jpg"), img);
-			var stream = fs.createReadStream(path.join(rootpath, data.msgdata.messageID + ".jpg"));
-			data.log(json);
-			var obj = {
-				body: `Title: ${json.title}\nPostlink: ${json.postLink}\nSubreddit: https://reddit.com/r/${json.subreddit}`,
-				attachment: ([stream])
-			};
-			return data.facebookapi.sendMessage(obj, data.msgdata.threadID, data.msgdata.messageID);
-		})
-		}*/
+		}
 	}
 }
 module.exports = {
