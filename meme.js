@@ -2,19 +2,11 @@ var fs = global.nodemodule["fs"];
 var path = global.nodemodule["path"];
 var wait = global.nodemodule["wait-for-stuff"];
 var streamBuffers = global.nodemodule["stream-buffers"];
-var request = global.nodemodule["request"];
 var fetch = global.nodemodule["node-fetch"];
 
 function onLoad(data) {
 
-var onLoadText = "";
-onLoadText += "██████╗░░█████╗░███╗░░██╗██████╗░░█████╗░███╗░░░███╗\n\n\n";
-onLoadText += "██╔══██╗██╔══██╗████╗░██║██╔══██╗██╔══██╗████╗░████║\n";
-onLoadText += "██████╔╝███████║██╔██╗██║██║░░██║██║░░██║██╔████╔██║\n";
-onLoadText += "██╔══██╗██╔══██║██║╚████║██║░░██║██║░░██║██║╚██╔╝██║\n";
-onLoadText += "██║░░██║██║░░██║██║░╚███║██████╔╝╚█████╔╝██║░╚═╝░██║\n";
-onLoadText += "╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░░╚════╝░╚═╝░░░░░╚═╝\n\n";
-onLoadText += "Enable Random by Kaysil\n"
+var onLoadText = "Loaded `Memer` by Kaysil";
 
 data.log(onLoadText);
 
@@ -89,13 +81,13 @@ var args = data.args;
 
 	switch (args[0].toLowerCase()) {
 		default:
-		return { handler: 'internal', data: config.message.wrongSubCommand };
+		return { handler: 'internal', data: "" };
 			break;
 		case 'sounds':
 		case 'sound':
 		case 's':
 			try {
-		var randomItem = config.sounds[Math.floor(Math.random() * items.length)];
+		var randomItem = config.sounds[Math.floor(Math.random() * config.sounds.length)];
 		var randomSounds = fs.createReadStream(path.join(rootpath, "sounds", randomItem.filepath+".mp3"));
 		return data.return({
 			handler: `internal-raw`,
@@ -114,34 +106,36 @@ var args = data.args;
 			try {
 			var fetchdata = await fetch("https://meme-api.herokuapp.com/gimme");
 			var json = await fetchdata.json();
-			} catch (err) {}
-			if (!json.nsfw) {
-					request({
-						url: json.url,
-						encoding: null
-					}, function (error, response, body) {
-						if (error) data.log(error);
-						var imagesx = new streamBuffers.ReadableStreamBuffer({
+			
+			if (json.nsfw === false) {
+				var fetchimage = await fetch(json.url);
+				if (fetchimage.ok) {
+					var buffer = await fetchimage.buffer();
+					var imagesx = new streamBuffers.ReadableStreamBuffer({
 							frequency: 10,
 							chunkSize: 2048
 						});
 						imagesx.path = "image.png";
-						imagesx.put(body);
+						imagesx.put(buffer);
 						imagesx.stop();
 
 						return {
 							handler: "internal-raw",
 							data: {
-								body: `${json.title}\n${json.postlink}\n\nPosted at: r/${json.subreddit}`,
+								body: `${json.title}\n${json.postLink}\n\nPosted at: r/${json.subreddit}`,
 								attachment: ([imagesx])
-							}
+							},
+							noDelay: true
 						};
-				})
+				}
 			} else {
 				return {
 					handler: "internal",
 					data: "Hold up! That is a NSFW post"
 			}
+		}
+			} catch (err) {
+			data.log(err)
 		}
 	}
 }
