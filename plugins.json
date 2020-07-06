@@ -21,15 +21,22 @@
     "wait-for-stuff": "*",
 	  "stream-buffers": "*",
 	  "node-fetch": "*",
-	  "request": "*"
+	  "wait-on": "*",
+	  "merge-images": "*",
+	  "jimp": "*",
+	  "canvas": "*"
   },
   	"dependents": [],
 	"file_map": {
 	"music/khabanh_oibanoi.mp3": "khabanh_oibanoi",
 	"music/duckbatman_oibanoi.mp3": "duckbatman_oibanoi",
 	"music/huanrose_colamthimoicoan.mp3": "huanrose_colamthimoicoan",
-	"music/duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong"
+	"music/duckbatman_trietlycuocsong.mp3": "duckbatman_trietlycuocsong",
+	"image/slap_template.jpg": "slap_template"
 	},
+	"dependents": [
+		"LangAPI"
+	],
 	"chatHook": "chathook",
 	"chatHookType": "everything",
 	"chatHookPlatform": 1,
