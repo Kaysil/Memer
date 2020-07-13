@@ -1,2 +1,5 @@
 # Memer
-Random plugin for C3CBot
+Memer plugin for C3CBot
+
+
+#### You will need LangAPI to run it
