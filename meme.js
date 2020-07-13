@@ -85,12 +85,14 @@ var langMap = {
 	"vi_VN": {
 		"wrongCommand": "Sai cú pháp, sử dụng: {0}pls sound || neko [hug/kiss] || meme || slap <@mention>",
 		"nsfw": "Từ từ nào, đó là bài viết NSFW",
-		"meme": "{0}\n\n {1} tại r/{2}"
+		"meme": "{0}\n\n {1} tại r/{2}",
+		"slapWrong": "Sai cú pháp, sử dụng: {0}pls slap <@mentions>"
 	},
 	"en_US": {
 		"wrongCommand": "Wrong command, using: {0}pls sound || neko [hug/kiss] || meme || slap <@mention>",
 		"nsfw": "Hold up! That is a NSFW post",
-		"meme": "{0}\n\n {1} at r/{2}" 
+		"meme": "{0}\n\n {1} at r/{2}",
+		"slapWrong": "Using: {0}pls slap <@mentions>"
 	}
 };
 
@@ -104,7 +106,7 @@ var args = data.args;
 		if (!args[0]) return { 
 			handler: 'internal', 
 			data: langAPI
-			.getLang("memerLang.json", `FB-${data.msgdata.senderID}`, "wrongCommand", "en_US")
+			.getLang("memerLang.json", data, "wrongCommand", "en_US")
 			.replace("{0}", global.config.commandPrefix)
 		};
 
@@ -113,7 +115,7 @@ var args = data.args;
 		return { 
 			handler: 'internal', 
 			data: langAPI
-			.getLang("memerLang.json", `FB-${data.msgdata.senderID}`, "wrongCommand", "en_US")
+			.getLang("memerLang.json", data, "wrongCommand", "en_US")
 			.replace("{0}", global.config.commandPrefix)
 		};
 			break;
@@ -156,7 +158,7 @@ var args = data.args;
 							handler: "internal-raw",
 							data: {
 								body: langAPI
-				.getLang("memerLang.json", `FB-${data.msgdata.senderID}`, "meme", "en_US")
+				.getLang("memerLang.json", data, "meme", "en_US")
 				.replace("{0}", json.title)
 				.replace("{1}", json.postLink)
 				.replace("{2}", json.subreddit),
@@ -168,7 +170,7 @@ var args = data.args;
 				return {
 					handler: "internal",
 					data: langAPI
-			.getLang("memerLang.json", `FB-${data.msgdata.senderID}`, "nsfw", "en_US")
+			.getLang("memerLang.json", data, "nsfw", "en_US")
 			}
 		}
 			} catch (err) {
@@ -300,10 +302,12 @@ var slap = function (type, datas) {
                 datas.log(err);
             });
     } else {
-        return {
+        data.return({
             handler: 'internal',
-            data: 'Sử dụng: /slap <mention>'
-        }
+            data: langAPI
+			.getLang("memerLang.json", data, "slapWrong", "en_US")
+			.replace("{0}", global.config.commandPrefix)
+        })
     }
 }
 
